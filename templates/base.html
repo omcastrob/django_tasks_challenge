@@ -1,0 +1,46 @@
+{% load static %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% tailwind_css %}
+    <meta charset="utf-8">
+    <title>{% block title %}Tasks app{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <nav class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between h-16 items-center">
+                
+                <div class="text-xl font-semibold text-gray-800">
+                    <a href="/">Task Manager</a>
+                </div>
+          
+                {% if user.is_authenticated %}
+                <div class="flex items-center space-x-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Hi {{ user.username }}!</h2>
+                    
+                    <!-- Logout button (POST form) -->
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" 
+                                class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded text-sm">
+                        Logout
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+        </nav>
+    </header>
+    <main class="bg-gray-100 p-6">
+    {% block content %}
+    {% endblock %}
+    </main>
+</body>
+
+</html>

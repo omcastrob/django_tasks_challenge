@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 STATUS_CHOICES = [
@@ -9,8 +10,28 @@ STATUS_CHOICES = [
 ]
 
 
-class Task(models.Model):
-    # TODO: add soft delete
+class NonDeleted(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at=None)
+
+
+class SoftDeletionModel(models.Model):
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    objects = NonDeleted()
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save()
+
+    def restore(self):
+        self.deleted_at = None
+        self.save()
+
+    class Meta:
+        abstract = True
+
+
+class Task(SoftDeletionModel):
 
     title = models.CharField(max_length=255)
     description = models.TextField()

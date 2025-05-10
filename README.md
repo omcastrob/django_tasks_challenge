@@ -24,16 +24,21 @@ Make sure you have docker and docker compose installed, configured and running.
 - There won't be any users, so feel free to sign up and log in so you can use the app.
 - Profit (?).
 
-## Now What?
 
+## How it works?
+Based on the phylosophy of DRYI (Don't Repeat Yourself Idiot), I tried to use as much as I can all the tools that django already offers, like authentication, class based views, forms, serializers, etc. 
+
+Applying a bit of styling using Tailwind, I managed to create an small yet a complete task management application.
+
+## Features
+- Separated docker-compose files for development and production environments
+- Soft deletion model to keep deleted records on the database, it can be used on any other model in the future.
+- Swagger installed for API documentation.
+
+## Now What?
 - To check the REST API, go to http://localhost/swagger, where you can see (and use) the available endpoints. Just make sure to authenticate using any of the registered users.
 
 - To run the django tests, execute following command on your shell:
     ```
     docker compose run web python manage.py test apps.tasks.tests
     ```
-
-## How it works?
-Based on the phylosophy of DRYI (Don't Repeat Yourself Idiot), I tried to use as much as I can all the tools that django already offers, like authentication, class based views, forms, serializers, etc. 
-
-Applying a bit of styling using Tailwind, I managed to create an small yet a complete task management application.
